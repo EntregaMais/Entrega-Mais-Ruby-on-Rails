@@ -31,32 +31,135 @@
 
 - O modelo relacional do BD
 
-	## Diagrama ER
-	---
-	
-<!-- 
-	- Entities and Relationships
-		> Mermaid syntax for ER diagrams is compatible with PlantUML, with an extension to label the relationship. Each statement consists of the following parts:
-	`<first-entity> [<relationship> <second-entity> : <relationship-label>]`
 
-	- **first-entity** is the name of an entity. Names must begin with an alphabetic character and may also contain digits, hyphens, and underscores.
-	- **relationship** describes the way that both entities inter-relate. See below.
-	- **second-entity** is the name of the other entity.
-	- **relationship-label** describes the relationship from the perspective of the first entity.  -->
-
-	
+---
+# Diagramas ER
+## Conceitual
+---
 ```mermaid
 erDiagram
-    CLIENTES ||--|{  PEDIDOS : "fazem"
-    PEDIDOS ||--|{ PACOTES : "contem"
+	%% ENTIDADES
+	CLIENTE
+	PEDIDO
+	PACOTE
+	DESPACHANTE
+	ROTA
+	TRANSPORTADORA
+	CIDADE
 
-   	ROTAS ||--|{ PEDIDOS : "tem"
-    TRANSPORTADORAS }|--|{ ROTAS : "está vinculada"
-	ROTAS }|--|{ CIDADES : "está vinculada"
+	%% RELACIONAMENTOS
+	CLIENTE ||--|{  PEDIDO : "fazem"
+	PEDIDO ||--|{ PACOTE : "contem"
+	DESPACHANTE ||--|{ PEDIDO : "vinculado"
+
+	ROTA ||--|{ PEDIDO : "tem"
+	TRANSPORTADORA }|--|{ ROTA : "está vinculada"
+	ROTA }|--|{ CIDADE : "está vinculada"
+```
+## Lógico
+---
+```mermaid
+erDiagram
+	%% ENTIDADES
+	CLIENTE
+	PEDIDO
+	PACOTE
+	DESPACHANTE
+	ROTA
+	TRANSPORTADORA
+	CIDADE
+
+	%% RELACIONAMENTOS
+	CLIENTE ||--|{  PEDIDO : "fazem"
+	PEDIDO ||--|{ PACOTE : "contem"
+	DESPACHANTE ||--|{ PEDIDO : "vinculado"
+	ROTA ||--|{ PEDIDO : "tem"
+	TRANSPORTADORA }|--|{ ROTA : "está vinculada"
+	ROTA }|--|{ CIDADE : "está vinculada"
+
+	%% ATRIBUTOS
+	CLIENTE {
+		INTEGER ID PK
+		VARCHAR2 NM_CLIENTE
+		VARCHAR2 EMAIL
+		VARCHAR2 SENHA
+		VARCHAR2 TELEFONE
+	}
+
+	DESPACHANTE {
+		INTEGER ID PK
+		VARCHAR2 NM_DESPACHANTE
+		INTEGER ID_ROTAS "Lista de Rotas"
+		INTEGER ID_TRANSPORTADORA
+	}
+
+	TRANSPORTADORA {
+		INTEGER ID PK
+		VARCHAR2 NM_EMPRESA
+		VARCHAR2 NM_RESP
+		VARCHAR2 CPF
+		VARCHAR2 CNPJ
+		VARCHAR2 TELEFONE
+		VARCHAR2 SETOR
+		VARCHAR2 VAGA
+		VARCHAR2 COBRA_EMBARQUE
+		VARCHAR2 PIX
+		VARCHAR2 EMAIL
+		VARCHAR2 SENHA
+	}
+
+	CIDADE {
+		VARCHAR2 ID
+		VARCHAR2 ESTADO
+		VARCHAR2 CIDADE
+		VARCHAR2 ROTA
+		VARCHAR2 TP_ENTREGA
+		VARCHAR2 PRAZO
+		VARCHAR2 PRECO_PP
+		VARCHAR2 PRECO_P
+		VARCHAR2 PRECO_M
+		VARCHAR2 PRECO_G
+		VARCHAR2 PRECO_FARDO
+	}
+
+	ROTA {
+		VARCHAR2 ID
+		VARCHAR2 NM_ROTA
+		VARCHAR2 DS_ROTA
+		VARCHAR2 VEICULO_ROTA
+		VARCHAR2 CIDADES
+	}
+
+	PEDIDO {
+		VARCHAR2 CD_PEDIDO "4+CHAR"
+		VARCHAR2 FRETE
+		VARCHAR2 DESCONTO
+		VARCHAR2 ESTIMATIVA
+		VARCHAR2 STATUS
+		VARCHAR2 QUANTIDADE
+		VARCHAR2 TRANSPORTADORA
+		VARCHAR2 VALOR_TOTAL
+		VARCHAR2 OBSERVACAO
+	}
+
+	PACOTE {
+		VARCHAR2 ID
+		VARCHAR2 FORNECEDOR
+		VARCHAR2 TELEFONE_FORNECEDOR
+		VARCHAR2 CLIENTE
+		VARCHAR2 TELEFONE_CLIENTE
+		VARCHAR2 ESTADO
+		VARCHAR2 CIDADE
+		VARCHAR2 TAMANHO
+		VARCHAR2 CD_PEDIDO
+		VARCHAR2 OBSERVACAO
+		VARCHAR2 FORN_PAGOU_FRETE
+		VARCHAR2 QUEM_PAGA_TAXA
+	}
+
 
 
 ```
----
 
 ## Pré-requisitos
 ---
