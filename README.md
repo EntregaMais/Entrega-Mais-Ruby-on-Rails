@@ -50,14 +50,46 @@ erDiagram
 	%% RELACIONAMENTOS
 	CLIENTE ||--|{  PEDIDO : "fazem"
 	PEDIDO ||--|{ PACOTE : "contem"
-	DESPACHANTE ||--|{ PEDIDO : "vinculado"
+	DESPACHANTE ||--|{ TRANSPORTADORA : "vinculado"
 
-	ROTA ||--|{ PEDIDO : "tem"
-	TRANSPORTADORA }|--|{ ROTA : "está vinculada"
-	ROTA }|--|{ CIDADE : "está vinculada"
+	ROTA ||--|{ TRANSPORTADORA : "tem"
+	TRANSPORTADORA }|--|{ PEDIDO : "vinculada"
+	ROTA }|--|{ CIDADE : "vinculada"
 ```
 ## Lógico
 ---
+
+<style>
+	/* 
+	fill		| Background color of an entity or attribute
+	stroke		| Border color of an entity or attribute, line color of a relationship 
+	!importante	| Needed to change default attributes
+	*/
+/* Box */
+.er.attributeBoxEven { /*The box containing attributes on even-numbered rows*/
+	fill: #525252 !important; 
+}
+.er.attributeBoxOdd { /*The box containing attributes on odd-numbered rows*/
+	fill: #383838 !important;
+}
+
+/* Entity */
+.er.entityBox { /*The box representing an entity*/
+	stroke-width: 2px !important;
+}
+.er.entityLabel { /*The label for an entity*/
+}
+
+/* Relationship */
+.er.relationshipLabel { /*The label for a relationship*/
+}
+.er.relationshipLabelBox { /*The box surrounding a relationship label*/
+}
+.er.relationshipLine { /*The line representing a relationship between entities*/
+}
+</style>
+
+
 ```mermaid
 erDiagram
 	%% ENTIDADES
@@ -72,10 +104,11 @@ erDiagram
 	%% RELACIONAMENTOS
 	CLIENTE ||--|{  PEDIDO : "fazem"
 	PEDIDO ||--|{ PACOTE : "contem"
-	DESPACHANTE ||--|{ PEDIDO : "vinculado"
-	ROTA ||--|{ PEDIDO : "tem"
-	TRANSPORTADORA }|--|{ ROTA : "está vinculada"
-	ROTA }|--|{ CIDADE : "está vinculada"
+	DESPACHANTE ||--|{ TRANSPORTADORA : "vinculado"
+	%%ROTA ||--|{ PEDIDO : "tem"
+	TRANSPORTADORA ||--|{ PEDIDO : "vinculado"
+	TRANSPORTADORA }|--|{ ROTA : "vinculado"
+	ROTA }|--|{ CIDADE : "vinculado"
 
 	%% ATRIBUTOS
 	CLIENTE {
@@ -88,7 +121,7 @@ erDiagram
 
 	DESPACHANTE {
 		INTEGER ID PK
-		VARCHAR2 NM_DESPACHANTE
+		VARCHAR2 NM_DESPACHANTE "Entregador"
 		INTEGER ID_ROTAS "Lista de Rotas"
 		INTEGER ID_TRANSPORTADORA
 	}
@@ -157,8 +190,6 @@ erDiagram
 		VARCHAR2 QUEM_PAGA_TAXA
 	}
 
-
-
 ```
 
 ## Pré-requisitos
@@ -188,17 +219,6 @@ Crie as tabelas na database com o seguinte comando:
 ```
 docker compose exec web rails db:migrate
 ```
-<!--
-- Será criado volumes gerenciados pelo próprio **Docker** na sua maquina local, a fim de persistir os dados
-- **RabbitMQ** será iniciado na porta **`5672`**
-	- **Management Console** será iniciado na porta **`15672`**
-	- user: **`ifpb`**
-	- password: **`ifpb`**
-- **Postgres** serão iniciados na porta **`5432`**
-	- **pgAdmin** será iniciado na porta **`5050`**
-	- user: **`ifpb`**
-	- password: **`ifpb`** -->
-
 
 ## Usando
 --- 
