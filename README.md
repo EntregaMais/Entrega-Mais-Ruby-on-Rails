@@ -518,3 +518,10 @@ host.
 * [Getting Started with Docker Compose](https://docs.docker.com/compose/gettingstarted/)
 * [Docker Compose Command line reference](https://docs.docker.com/compose/reference/)
 * [Compose file reference](https://docs.docker.com/compose/compose-file/)
+
+- Delete tmp/db/
+- docker compose build
+- docker compose up
+	- Espere um bom tempo que o container Web demora pakas pra iniciar
+- docker compose run web rake db:create
+- docker compose run web rails db:migrate
