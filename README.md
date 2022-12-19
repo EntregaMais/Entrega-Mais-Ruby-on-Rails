@@ -221,6 +221,15 @@ docker compose exec web rails db:migrate
 ```
 
 ## Usando
+```
+docker compose build
+```
+
+Em seguida, suba o container com o seguinte comando:
+```
+docker compose up -d
+```
+
 --- 
 Agora basta enviar requisições com o método **`POST`** para a porta **`3000`**:
 ```
