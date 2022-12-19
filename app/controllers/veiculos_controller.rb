@@ -33,7 +33,7 @@ class VeiculosController < ApplicationController
     end
   end
 
-  # GET /veiculos/placa/1
+  # GET /veiculos/placa
   def findByPlaca
     @veiculo = Veiculo.where(placa: params[:placa])
 

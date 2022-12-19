@@ -33,7 +33,7 @@ class DespachantesController < ApplicationController
     end
   end
 
-  # GET /despachantes/nmdespachante/
+  # GET /despachantes/nmdespachante
   def findByNmdespachante
     @despachantes = Despachante.where(nmdespachante: params[:nmdespachante])
 
