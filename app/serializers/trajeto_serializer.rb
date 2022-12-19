@@ -1,3 +1,3 @@
 class TrajetoSerializer < ActiveModel::Serializer
-  attributes :id, :id, :nmtrajeto, :dstrajeto, :idtransportadora
+  attributes :id, :nmtrajeto, :dstrajeto, :idtransportadora
 end

@@ -1,3 +1,3 @@
 class CidadeSerializer < ActiveModel::Serializer
-  attributes :id, :id, :nmcidade, :idtrajeto
+  attributes :id, :idapi, :nmcidade, :idtrajeto, :trajeto, :references
 end

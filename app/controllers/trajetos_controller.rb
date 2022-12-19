@@ -46,6 +46,6 @@ class TrajetosController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def trajeto_params
-      params.require(:trajeto).permit(:id, :nmtrajeto, :dstrajeto, :idtransportadora)
+      params.require(:trajeto).permit(:nmtrajeto, :dstrajeto, :idtransportadora, :cidades_attributes => [:id, :tipo, :valor, :destroy])
     end
 end
