@@ -33,6 +33,27 @@ class VeiculosController < ApplicationController
     end
   end
 
+  # GET /veiculos/placa/1
+  def findByPlaca
+    @veiculo = Veiculo.where(placa: params[:placa])
+
+    render json: @veiculo
+  end
+
+  # GET /veiculos/idrota/1
+  def findByIdrota
+    @veiculos = Veiculo.where(idrota: params[:idrota])
+
+    render json: @veiculos
+  end
+
+  # GET /veiculos/idtransportadora/1
+  def findByIdtransportadora
+    @veiculos = Veiculo.where(idtransportadora: params[:idtransportadora])
+
+    render json: @veiculos
+  end
+
   # DELETE /veiculos/1
   def destroy
     @veiculo.destroy
