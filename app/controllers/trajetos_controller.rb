@@ -47,6 +47,11 @@ class TrajetosController < ApplicationController
     render json: @trajetos
   end
 
+  # GET /trajeto/ok
+  def test
+    render plain: 'ok'
+  end
+
   # DELETE /trajetos/1
   def destroy
     @trajeto.destroy

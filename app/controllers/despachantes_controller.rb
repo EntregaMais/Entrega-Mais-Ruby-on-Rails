@@ -47,6 +47,11 @@ class DespachantesController < ApplicationController
     render json: @despachantes
   end
 
+  # GET /despachante/ok
+  def test
+    render plain: 'ok'
+  end
+
   # DELETE /despachantes/1
   def destroy
     @despachante.destroy

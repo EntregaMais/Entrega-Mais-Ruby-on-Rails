@@ -48,13 +48,17 @@ class PolisController < ApplicationController
     render json: @polis
   end
 
-    # GET /polis/idtrajeto/:idtrajeto
-    def findByIdtrajeto
-      @polis = Poli.where(idtrajeto: params[:idtrajeto])
-  
-      render json: @polis
-    end
+  # GET /polis/idtrajeto/:idtrajeto
+  def findByIdtrajeto
+    @polis = Poli.where(idtrajeto: params[:idtrajeto])
 
+    render json: @polis
+  end
+
+  # GET /poli/ok
+  def test
+    render plain: 'ok'
+  end
 
   # DELETE /polis/1
   def destroy

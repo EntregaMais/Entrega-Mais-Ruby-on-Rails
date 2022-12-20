@@ -54,6 +54,11 @@ class VeiculosController < ApplicationController
     render json: @veiculos
   end
 
+  # GET /veiculo/ok
+  def test
+    render plain: 'ok'
+  end
+
   # DELETE /veiculos/1
   def destroy
     @veiculo.destroy

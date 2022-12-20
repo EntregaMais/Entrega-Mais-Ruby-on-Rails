@@ -18,5 +18,9 @@ Rails.application.routes.draw do
     get 'idtransportadora/:idtransportadora', to: 'trajetos#findByIdtransportadora', on: :collection
   end
   resources :cidades
+  get 'despachante/ok', to: 'despachantes#test'
+  get 'veiculo/ok', to: 'veiculos#test'
+  get 'poli/ok', to: 'polis#test'
+  get 'trajeto/ok', to: 'trajetos#test'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
