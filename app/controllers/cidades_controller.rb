@@ -33,6 +33,27 @@ class CidadesController < ApplicationController
     end
   end
 
+  # GET /cidades/idapi/:idapi
+  def findByIdapi
+    @cidades = Cidade.where(idapi: params[:idapi])
+
+    render json: @cidades
+  end
+
+  # GET /cidades/nmcidade/:nmcidade
+  def findByNmcidade
+    @cidades = Cidade.where(nmcidade: params[:nmcidade])
+
+    render json: @cidades
+  end
+
+    # GET /cidades/idtrajeto/:idtrajeto
+    def findByIdtrajeto
+      @cidades = Cidade.where(idtrajeto: params[:idtrajeto])
+  
+      render json: @cidades
+    end
+
   # DELETE /cidades/1
   def destroy
     @cidade.destroy

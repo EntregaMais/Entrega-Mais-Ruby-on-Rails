@@ -33,6 +33,20 @@ class TrajetosController < ApplicationController
     end
   end
 
+  # GET /trajetos/nmtrajeto/:nmtrajeto
+  def findByNmtrajeto
+    @trajetos = Trajeto.where(nmtrajeto: params[:nmtrajeto])
+
+    render json: @trajetos
+  end
+
+  # GET /trajetos/idtransportadora/:idtransportadora
+  def findByIdtransportadora
+    @trajetos = Trajeto.where(idtransportadora: params[:idtransportadora])
+
+    render json: @trajetos
+  end
+
   # DELETE /trajetos/1
   def destroy
     @trajeto.destroy

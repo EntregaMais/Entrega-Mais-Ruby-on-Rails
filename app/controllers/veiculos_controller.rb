@@ -33,21 +33,21 @@ class VeiculosController < ApplicationController
     end
   end
 
-  # GET /veiculos/placa
+  # GET /veiculos/:placa
   def findByPlaca
     @veiculo = Veiculo.where(placa: params[:placa])
 
     render json: @veiculo
   end
 
-  # GET /veiculos/idrota/1
+  # GET /veiculos/idrota/:idrota
   def findByIdrota
     @veiculos = Veiculo.where(idrota: params[:idrota])
 
     render json: @veiculos
   end
 
-  # GET /veiculos/idtransportadora/1
+  # GET /veiculos/idtransportadora/:idtransportadora
   def findByIdtransportadora
     @veiculos = Veiculo.where(idtransportadora: params[:idtransportadora])
 
