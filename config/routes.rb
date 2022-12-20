@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     get 'idrota/:idrota', to: 'veiculos#findByIdrota', on: :collection
     get 'idtransportadora/:idtransportadora', to: 'veiculos#findByIdtransportadora', on: :collection
   end
-  resources :cidades  do
+  resources :polis  do
     get 'idapi/:idapi', to: 'cidades#findByIdapi', on: :collection
     get 'nmcidade/:nmcidade', to: 'cidades#findByNmcidade', on: :collection
     get 'idtrajeto/:idtrajeto', to: 'cidades#findByIdtrajeto', on: :collection
@@ -17,5 +17,6 @@ Rails.application.routes.draw do
     get 'nmtrajeto/:nmtrajeto', to: 'trajetos#findByNmtrajeto', on: :collection
     get 'idtransportadora/:idtransportadora', to: 'trajetos#findByIdtransportadora', on: :collection
   end
+  resources :cidades
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
