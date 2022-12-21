@@ -1,4 +1,7 @@
 class DespachanteTest < ActiveSupport::TestCase
+
+
+  
     test 'should not save despachante without nmdespachante' do
       despachante = Despachante.new
       assert_not despachante.save, 'Saved despachante without nmdespachante'

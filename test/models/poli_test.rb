@@ -1,6 +1,10 @@
 require 'test_helper'
 
+
 class PoliTest < ActiveSupport::TestCase
+
+
+    
     test "should not save poli without idapi" do
         poli = Poli.new(nmcidade: 'São Paulo', idtrajeto: 1)
         assert_not poli.save
