@@ -1,0 +1,2 @@
+class Poli < ApplicationRecord
+end

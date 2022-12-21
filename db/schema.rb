@@ -10,14 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_30_213124) do
+ActiveRecord::Schema.define(version: 2022_12_20_080300) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "usuarios", force: :cascade do |t|
-    t.string "nome"
-    t.string "cpf"
+  create_table "cidades", force: :cascade do |t|
+    t.integer "idapi"
+    t.string "nmcidade"
+    t.integer "idtrajeto"
+    t.string "trajeto"
+    t.string "references"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "despachantes", force: :cascade do |t|
+    t.string "nmdespachante"
+    t.integer "idtransportadora"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "polis", force: :cascade do |t|
+    t.integer "idapi"
+    t.string "nmcidade"
+    t.integer "idtrajeto"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "trajetos", force: :cascade do |t|
+    t.string "nmtrajeto"
+    t.string "dstrajeto"
+    t.integer "idtransportadora"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "veiculos", force: :cascade do |t|
+    t.string "placa"
+    t.integer "idrota"
+    t.integer "idtransportadora"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -1,0 +1,2 @@
+class Despachante < ApplicationRecord
+end
