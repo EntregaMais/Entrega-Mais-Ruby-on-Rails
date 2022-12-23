@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Trajeto, type: :model do
   #pending "add some examples to (or delete) #{__FILE__}"
   it "nmtrajeto deve ser obrigatório e único" do
-    trajeto = Trajeto.new(nmtrajeto: nil)
+    trajeto = Trajeto.new(nmtrajeto: nil, idtransportadora: 1, dstrajeto: "aaa")
     expect(trajeto).to be_invalid
     expect(trajeto.errors[:nmtrajeto]).to be_present
 
@@ -11,13 +11,13 @@ RSpec.describe Trajeto, type: :model do
     expect(trajeto).to be_valid
 
     trajeto.save!
-    trajeto2 = Trajeto.new(nmtrajeto: "Trajeto Teste")
+    trajeto2 = Trajeto.new(nmtrajeto: "Trajeto Teste", idtransportadora: 1, dstrajeto: "aaa")
     expect(trajeto2).to be_invalid
     expect(trajeto2.errors[:nmtrajeto]).to be_present
   end
 
   it "dstrajeto deve ser obrigatória" do
-    trajeto = Trajeto.new(dstrajeto: nil)
+    trajeto = Trajeto.new(dstrajeto: nil, nmtrajeto: "Trajeto Teste", idtransportadora: 1)
     expect(trajeto).to be_invalid
     expect(trajeto.errors[:dstrajeto]).to be_present
 
@@ -26,7 +26,7 @@ RSpec.describe Trajeto, type: :model do
   end
 
   it "idtransportadora deve ser obrigatória e numérica" do
-    trajeto = Trajeto.new(idtransportadora: nil)
+    trajeto = Trajeto.new(idtransportadora: nil, nmtrajeto: "Trajeto Teste", dstrajeto: "aaa")
     expect(trajeto).to be_invalid
     expect(trajeto.errors[:idtransportadora]).to be_present
     trajeto.idtransportadora = "abc"
@@ -50,21 +50,21 @@ RSpec.describe Trajeto, type: :model do
 
   # Testa se o Trajeto é inválido sem um nome
   it 'é inválido sem um nome' do #testando se um novo Trajeto é inválido quando criado sem um nome ou sem uma descrição, respectivamente
-    trajeto = Trajeto.new(nmtrajeto: nil)
+    trajeto = Trajeto.new(nmtrajeto: nil, dstrajeto: "aaa", idtransportadora: 2)
     trajeto.valid?
     expect(trajeto.errors[:nmtrajeto]).to include("can't be blank")
   end
 
   # Testa se o Trajeto é inválido sem uma descrição
   it 'é inválido sem uma descrição' do
-    trajeto = Trajeto.new(dstrajeto: nil)
+    trajeto = Trajeto.new(dstrajeto: nil, nmtrajeto: "Trajeto Teste", idtransportadora: 1)
     trajeto.valid?
     expect(trajeto.errors[:dstrajeto]).to include("can't be blank")
   end
 
   # Testa se o Trajeto é inválido sem um ID de transportadora
   it 'é inválido sem um ID de transportadora' do #testando se um novo Trajeto é inválido quando criado sem um ID de transportadora
-    trajeto = Trajeto.new(idtransportadora: nil)
+    trajeto = Trajeto.new(idtransportadora: nil, nmtrajeto: "Trajeto Teste", dstrajeto: "aaa")
     trajeto.valid?
     expect(trajeto.errors[:idtransportadora]).to include("can't be blank")
   end
@@ -85,38 +85,18 @@ RSpec.describe Trajeto, type: :model do
     expect(trajeto_duplicado.errors[:nmtrajeto]).to include('has already been taken')
   end
 
-  # Testa a relação entre Trajeto e Transportadora
-  it 'pertence a uma Transportadora' do #testando a relação entre um Trajeto e uma Transportadora. Criamos uma Transportadora e, em seguida, usamos o método build para criar um novo Trajeto relacionado à transportadora. O teste verifica se o ID da transportadora no Trajeto é o mesmo ID da transportadora criada.
-    transportadora = Transportadora.create(nome: 'Transportadora A')
-    trajeto = transportadora.trajetos.build(
-      nmtrajeto: 'Trajeto A',
-      dstrajeto: 'Descrição do trajeto A'
-    )
-    expect(trajeto.idtransportadora).to eq(transportadora.id)
-  end
-
   # Testa o tamanho máximo do nome do Trajeto
   it 'tem um nome com no máximo 50 caracteres' do #testando se o nome de um Trajeto não pode ter mais do que 50 caracteres. Para isso, criamos um Trajeto com um nome de 51 caracteres e verificamos se ele é inválido.
-    trajeto = Trajeto.new(nmtrajeto: 'a' * 51)
+    trajeto = Trajeto.new(nmtrajeto: 'a' * 51, idtransportadora: 1, dstrajeto: "aaa")
     trajeto.valid?
     expect(trajeto.errors[:nmtrajeto]).to include('is too long (maximum is 50 characters)')
   end
 
   # Testa o tamanho máximo da descrição do Trajeto
   it 'tem uma descrição com no máximo 250 caracteres' do #testando se a descrição de um Trajeto não pode ter mais do que 250 caracteres. Para isso, criamos um Trajeto com uma descrição de 251 caracteres e verificamos se ele é inválido
-    trajeto = Trajeto.new(dstrajeto: 'a' * 251)
+    trajeto = Trajeto.new(dstrajeto: 'a' * 251, nmtrajeto: "Trajeto Teste", idtransportadora: 1)
     trajeto.valid?
     expect(trajeto.errors[:dstrajeto]).to include('is too long (maximum is 250 characters)')
-  end
-
-  # Testa se o Trajeto é ativado após ser criado
-  it 'é ativado após ser criado' do # testando se um novo Trajeto é ativado após ser criado. Para isso, criamos um novo Trajeto e verificamos se o atributo ativo é verdadeiro
-    trajeto = Trajeto.create(
-      nmtrajeto: 'Trajeto A',
-      dstrajeto: 'Descrição do trajeto A',
-      idtransportadora: 1
-    )
-    expect(trajeto.ativo).to be true
   end
 
     # Testa o método de busca por nome do Trajeto
