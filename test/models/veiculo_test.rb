@@ -50,5 +50,31 @@ class VeiculoTest < ActiveSupport::TestCase
   test 'Teste para verificar se a coluna "placa" é única' do
       assert_equal true, Veiculo.columns_hash['placa'].unique
   end
+
+  test 'test_veiculo_must_have_idrota'
+    veiculo = Veiculo.new(placa: 'ABC-1234', idtransportadora: 2)
+    assert_not veiculo.save
+  end
+
+  test 'test_veiculo_must_have_idtransportadora'
+    veiculo = Veiculo.new(placa: 'ABC-1234', idrota: 1)
+    assert_not veiculo.save
+  end
+
+  test 'test_veiculo_placa_uniqueness'
+    Veiculo.create(placa: 'ABC-1234', idrota: 1, idtransportadora: 2)
+    veiculo = Veiculo.new(placa: 'ABC-1234', idrota: 1, idtransportadora: 3)
+    assert_not veiculo.save
+  end
+
+  test 'test_veiculo_creation_with_valid_attributes'
+    veiculo = Veiculo.new(placa: 'ABC-1234', idrota: 1, idtransportadora: 2)
+    assert veiculo.save
+  end
+  
+  
+
+
+  
     
   end

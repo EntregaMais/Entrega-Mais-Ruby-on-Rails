@@ -33,4 +33,48 @@ class VeiculosControllerTest < ActionDispatch::IntegrationTest
   
       assert_response 204
     end
+
+    test 'test_index'
+      get :index
+      assert_response :success
+      assert_equal Veiculo.all, assigns(:veiculos)
+    end
+
+    test 'test_show'
+      veiculo = Veiculo.create(placa: 'ABC-1234', idrota: 1, idtransportadora: 2)
+      get :show, params: { id: veiculo.id }
+      assert_response :success
+      assert_equal veiculo, assigns(:veiculo)
+    end
+
+    test 'test_create'
+      assert_difference('Veiculo.count') do
+        post :create, params: { veiculo: { placa: 'ABC-1234', idrota: 1, idtransportadora: 2 } }
+      end
+      assert_response :created
+    end
+
+    test 'test_update'
+      veiculo = Veiculo.create(placa: 'ABC-1234', idrota: 1, idtransportadora: 2)
+      patch :update, params: { id: veiculo.id, veiculo: { placa: 'DEF-5678', idrota: 2, idtransportadora: 3 } }
+      assert_response :success
+      veiculo.reload
+      assert_equal 'DEF-5678', veiculo.placa
+      assert_equal 2, veiculo.idrota
+      assert_equal 3, veiculo.idtransportadora
+    end
+
+    test 'test_destroy'
+      veiculo = Veiculo.create(placa: 'ABC-1234', idrota: 1, idtransportadora: 2)
+      assert_difference('Veiculo.count', -1) do
+        delete :destroy, params: { id: veiculo.id }
+      end
+      assert_response :success
+    end
+    
+    
+    
+    
+    
+
   end
