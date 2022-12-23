@@ -92,6 +92,35 @@ RSpec.describe Despachante, type: :model do
       despachante = Despachante.new(nmdespachante: 'Despachante A', idtransportadora: 1)
       expect(despachante).to be_valid
     end
+
+    it "nmdespachante deve ser obrigatório" do
+      despachante = Despachante.new
+      expect(despachante).to be_invalid
+      expect(despachante.errors[:nmdespachante]).to be_present
+    end
+
+    it "idtransportadora deve ser numérico" do
+      despachante = Despachante.new(idtransportadora: "abc")
+      expect(despachante).to be_invalid
+      expect(despachante.errors[:idtransportadora]).to be_present
+
+      despachante.idtransportadora = 123
+      expect(despachante).to be_valid
+    end
+
+    it "nmdespachante deve ter entre 3 e 150 caracteres" do
+      despachante = Despachante.new(nmdespachante: "ab")
+      expect(despachante).to be_invalid
+      expect(despachante.errors[:nmdespachante]).to be_present
+
+      despachante.nmdespachante = "a" * 151
+      expect(despachante).to be_invalid
+      expect(despachante.errors[:nmdespachante]).to be_present
+
+      despachante.nmdespachante = "a" * 3
+      expect(despachante).to be_valid
+    end
+
   end
 
   describe '.find_by_idtransportadora' do

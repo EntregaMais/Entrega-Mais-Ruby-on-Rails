@@ -2,6 +2,39 @@ require 'rails_helper'
 
 RSpec.describe Poli, type: :model do
   #pending "add some examples to (or delete) #{__FILE__}"
+  describe "validações" do
+    it "idapi deve ser obrigatório" do
+      poli = Poli.new(idapi: nil)
+      expect(poli).to be_invalid
+      expect(poli.errors[:idapi]).to be_present
+
+      poli.idapi = 123
+      expect(poli).to be_valid
+    end
+
+    it "nmcidade deve ser obrigatória" do
+      poli = Poli.new(nmcidade: nil)
+      expect(poli).to be_invalid
+      expect(poli.errors[:nmcidade]).to be_present
+
+      poli.nmcidade = "São Paulo"
+      expect(poli).to be_valid
+    end
+
+    it "idtrajeto deve ser obrigatório e numérico" do
+      poli = Poli.new(idtrajeto: nil)
+      expect(poli).to be_invalid
+      expect(poli.errors[:idtrajeto]).to be_present
+
+      poli.idtrajeto = "abc"
+      expect(poli).to be_invalid
+      expect(poli.errors[:idtrajeto]).to be_present
+
+      poli.idtrajeto = 123
+      expect(poli).to be_valid
+    end
+  end
+
   describe "validações" do #testa as validações do model, verificando se o model é inválido quando os campos obrigatórios são nulos.
 
     it "is invalid without a idapi" do

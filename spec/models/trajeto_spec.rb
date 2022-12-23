@@ -2,6 +2,42 @@ require 'rails_helper'
 
 RSpec.describe Trajeto, type: :model do
   #pending "add some examples to (or delete) #{__FILE__}"
+  it "nmtrajeto deve ser obrigatório e único" do
+    trajeto = Trajeto.new(nmtrajeto: nil)
+    expect(trajeto).to be_invalid
+    expect(trajeto.errors[:nmtrajeto]).to be_present
+
+    trajeto.nmtrajeto = "Trajeto Teste"
+    expect(trajeto).to be_valid
+
+    trajeto.save!
+    trajeto2 = Trajeto.new(nmtrajeto: "Trajeto Teste")
+    expect(trajeto2).to be_invalid
+    expect(trajeto2.errors[:nmtrajeto]).to be_present
+  end
+
+  it "dstrajeto deve ser obrigatória" do
+    trajeto = Trajeto.new(dstrajeto: nil)
+    expect(trajeto).to be_invalid
+    expect(trajeto.errors[:dstrajeto]).to be_present
+
+    trajeto.dstrajeto = "São Paulo - Rio de Janeiro"
+    expect(trajeto).to be_valid
+  end
+
+  it "idtransportadora deve ser obrigatória e numérica" do
+    trajeto = Trajeto.new(idtransportadora: nil)
+    expect(trajeto).to be_invalid
+    expect(trajeto.errors[:idtransportadora]).to be_present
+    trajeto.idtransportadora = "abc"
+    expect(trajeto).to be_invalid
+    expect(trajeto.errors[:idtransportadora]).to be_present
+
+    trajeto.idtransportadora = 123
+    expect(trajeto).to be_valid
+  end
+
+
   # Testa se o Trajeto é válido com atributos válidos
   it 'é válido com atributos válidos' do #testando se um novo Trajeto é válido quando criado com atributos válidos
     trajeto = Trajeto.new(

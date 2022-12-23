@@ -42,6 +42,58 @@ RSpec.describe Veiculo, type: :model do
       veiculo.idrota = rota.id + 1
       expect(veiculo).not_to be_valid
     end
+
+    it "placa deve ser obrigatória, única e ter entre 6 e 15 caracteres" do
+      veiculo = Veiculo.new(placa: nil)
+      expect(veiculo).to be_invalid
+      expect(veiculo.errors[:placa]).to be_present
+
+      veiculo.placa = "a" * 5
+      expect(veiculo).to be_invalid
+      expect(veiculo.errors[:placa]).to be_present
+
+      veiculo.placa = "a" * 16
+      expect(veiculo).to be_invalid
+      expect(veiculo.errors[:placa]).to be_present
+
+      veiculo.placa = "a" * 6
+      expect(veiculo).to be_valid
+
+      veiculo.save!
+      veiculo2 = Veiculo.new(placa: "a" * 6)
+      expect(veiculo2).to be_invalid
+      expect(veiculo2.errors[:placa]).to be_present
+    end
+
+
+    it "idrota deve ser obrigatória e numérica" do
+      veiculo = Veiculo.new(idrota: nil)
+      expect(veiculo).to be_invalid
+      expect(veiculo.errors[:idrota]).to be_present
+
+      veiculo.idrota = "abc"
+      expect(veiculo).to be_invalid
+      expect(veiculo.errors[:idrota]).to be_present
+
+      veiculo.idrota = 123
+      expect(veiculo).to be_valid
+    end
+
+    it "idtransportadora deve ser obrigatória e numérica" do
+      veiculo = Veiculo.new(idtransportadora: nil)
+      expect(veiculo).to be_invalid
+      expect(veiculo.errors[:idtransportadora]).to be_present
+
+      veiculo.idtransportadora = "abc"
+      expect(veiculo).to be_invalid
+      expect(veiculo.errors[:idtransportadora]).to be_present
+
+      veiculo.idtransportadora = 123
+      expect(veiculo).to be_valid
+    end
+  end
+
+
   end
 
   describe '.find_by_placa' do
