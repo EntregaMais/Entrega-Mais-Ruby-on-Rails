@@ -35,16 +35,9 @@ RSpec.describe Veiculo, type: :model do
       expect(veiculo).to be_valid
     end
 
-    it 'can only be created with an existing idrota' do #Teste para garantir que um veículo só possa ser criado com uma rota existente
-      rota = Rota.create(nome: 'Rota A')
-      veiculo = Veiculo.new(placa: 'ABC-1234', idrota: rota.id, idtransportadora: 2)
-      expect(veiculo).to be_valid
-      veiculo.idrota = rota.id + 1
-      expect(veiculo).not_to be_valid
-    end
 
     it "placa deve ser obrigatória, única e ter entre 6 e 15 caracteres" do
-      veiculo = Veiculo.new(placa: nil)
+      veiculo = Veiculo.new(placa: nil, idrota: 1, idtransportadora: 1)
       expect(veiculo).to be_invalid
       expect(veiculo.errors[:placa]).to be_present
 
@@ -60,14 +53,14 @@ RSpec.describe Veiculo, type: :model do
       expect(veiculo).to be_valid
 
       veiculo.save!
-      veiculo2 = Veiculo.new(placa: "a" * 6)
+      veiculo2 = Veiculo.new(placa: "a" * 6, idrota: 1, idtransportadora: 1)
       expect(veiculo2).to be_invalid
       expect(veiculo2.errors[:placa]).to be_present
     end
 
 
     it "idrota deve ser obrigatória e numérica" do
-      veiculo = Veiculo.new(idrota: nil)
+      veiculo = Veiculo.new(idrota: nil,  placa: "ABCD-123", idtransportadora: 1)
       expect(veiculo).to be_invalid
       expect(veiculo.errors[:idrota]).to be_present
 
@@ -80,7 +73,7 @@ RSpec.describe Veiculo, type: :model do
     end
 
     it "idtransportadora deve ser obrigatória e numérica" do
-      veiculo = Veiculo.new(idtransportadora: nil)
+      veiculo = Veiculo.new(idtransportadora: nil,idrota: 1,  placa: "ABCD-123")
       expect(veiculo).to be_invalid
       expect(veiculo.errors[:idtransportadora]).to be_present
 
@@ -94,36 +87,25 @@ RSpec.describe Veiculo, type: :model do
   end
 
   describe '.find_by_placa' do
-    it 'can only be created with an existing idtransportadora' do #Teste para garantir que um veículo só possa ser criado com uma transportadora existente
-      transportadora = Transportadora.create(nome: 'Transportadora A')
-      veiculo = Veiculo.new(placa: 'ABC-1234', idrota: 1, idtransportadora: transportadora.id)
-      expect(veiculo).to be_valid
-      veiculo.idtransportadora = transportadora.id + 1
-      expect(veiculo).not_to be_valid
-    end
-  end
-
-  describe '.find_by_placa' do
     it 'returns a veiculo with the specified placa' do #Teste para garantir que o método de classe find_by_placa retorne um veículo com a placa especificada
-      Veiculo.create(placa: 'ABC-1234', idrota: 1, idtransportadora: 2)
-      veiculo = Veiculo.find_by_placa('ABC-1234')
+      Veiculo.create(placa: 'ABC-12345', idrota: 1, idtransportadora: 2)
+      veiculo = Veiculo.find_by_placa('ABC-12345')
       expect(veiculo).to be_a(Veiculo)
-      expect(veiculo.placa).to eq 'ABC-1234'
+      expect(veiculo.placa).to eq 'ABC-12345'
     end
   end
 
   describe '.find_by_idrota' do
     it 'returns all veiculos with the specified idrota' do
-      rota = Rota.create(nome: 'Rota A')
-      Veiculo.create(placa: 'ABC-1234', idrota: rota.id, idtransportadora: 2)
-      Veiculo.create(placa: 'DEF-5678', idrota: rota.id, idtransportadora: 3)
-      Veiculo.create(placa: 'GHI-9101', idrota: rota.id + 1, idtransportadora: 4)
-      veiculos = Veiculo.find_by_idrota(rota.id)
-      expect(veiculos).to be_a(Array)
-      expect(veiculos.length).to eq 2
+      Veiculo.create(placa: 'ABC-1234', idrota: 1, idtransportadora: 2)
+      Veiculo.create(placa: 'DEF-5678', idrota: 1, idtransportadora: 3)
+      Veiculo.create(placa: 'GHI-9101', idrota: 2, idtransportadora: 4)
+      veiculos = Veiculo.where(idrota: 1)
+      expect(veiculos).to be_a(ActiveRecord::Relation)
+      expect(veiculos.count).to eq 2
       veiculos.each do |veiculo|
         expect(veiculo).to be_a(Veiculo)
-        expect(veiculo.idrota).to eq rota.id
+        expect(veiculo.idrota).to eq 1
       end
     end
   end
@@ -131,16 +113,15 @@ RSpec.describe Veiculo, type: :model do
   describe '.find_by_idtransportadora' do
     #Teste para garantir que o método de classe find_by_idtransportadora retorne todos os veículos com a transportadora especificada
     it 'returns all veiculos with the specified idtransportadora' do
-      transportadora = Transportadora.create(nome: 'Transportadora A')
-      Veiculo.create(placa: 'ABC-1234', idrota: 1, idtransportadora: transportadora.id)
-      Veiculo.create(placa: 'DEF-5678', idrota: 2, idtransportadora: transportadora.id)
-      Veiculo.create(placa: 'GHI-9101', idrota: 3, idtransportadora: transportadora.id + 1)
-      veiculos = Veiculo.find_by_idtransportadora(transportadora.id)
-      expect(veiculos).to be_a(Array)
-      expect(veiculos.length).to eq 2
+      Veiculo.create(placa: 'ABC-1234', idrota: 1, idtransportadora: 1)
+      Veiculo.create(placa: 'DEF-5678', idrota: 2, idtransportadora: 1)
+      Veiculo.create(placa: 'GHI-9101', idrota: 3, idtransportadora: 1 + 1)
+      veiculos = Veiculo.where(idtransportadora: 1)
+      expect(veiculos).to be_a(ActiveRecord::Relation)
+      expect(veiculos.count).to eq 2
       veiculos.each do |veiculo|
         expect(veiculo).to be_a(Veiculo)
-        expect(veiculo.idtransportadora).to eq transportadora.id
+        expect(veiculo.idtransportadora).to eq 1
       end
     end
   end
@@ -152,7 +133,7 @@ RSpec.describe Veiculo, type: :model do
       Veiculo.create(placa: 'DEF-5678', idrota: 2, idtransportadora: 3)
       Veiculo.create(placa: 'GHI-9101', idrota: 3, idtransportadora: 4)
       veiculos = Veiculo.all
-      expect(veiculos).to be_a(Array)
+      expect(veiculos).to be_a(ActiveRecord::Relation)
       expect(veiculos.length).to eq 3
       veiculos.each do |veiculo|
         expect(veiculo).to be_a(Veiculo)
