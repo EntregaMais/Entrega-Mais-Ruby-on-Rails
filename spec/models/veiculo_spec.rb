@@ -93,9 +93,6 @@ RSpec.describe Veiculo, type: :model do
     end
   end
 
-
-  end
-
   describe '.find_by_placa' do
     it 'can only be created with an existing idtransportadora' do #Teste para garantir que um veículo só possa ser criado com uma transportadora existente
       transportadora = Transportadora.create(nome: 'Transportadora A')
@@ -181,10 +178,4 @@ RSpec.describe Veiculo, type: :model do
     end
   end
   
-end
-  
-
-
-  
-
 end
